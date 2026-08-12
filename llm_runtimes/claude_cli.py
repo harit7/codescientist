@@ -38,6 +38,10 @@ def _flatten(messages):
 def complete(messages, model="sonnet", response_format=None, timeout=None):
     """Run one claude -p call. Returns the assistant text."""
     system_text, prompt = _flatten(messages)
+    if not prompt.strip():
+        # claude -p requires a non-empty prompt; some scaffolds send
+        # system-message-only requests.
+        prompt = "Follow the system instructions and produce the requested output."
     sys_prompt = _NO_TOOLS_SYSTEM
     if system_text:
         sys_prompt += "\n\n" + system_text
