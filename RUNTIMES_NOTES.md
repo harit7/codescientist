@@ -96,3 +96,10 @@ python -m llm_runtimes.server --port 8399 --preload-local
   `response_format` schema for the new backends (CodeScientist already
   prompts for fenced JSON, and its Claude code path skips
   `response_format`, so this matches existing behavior).
+
+## Overnight run attempt (2026-08-12)
+
+LLM routing verified end to end (smoke test passed via claudecli-haiku through
+getLLMResponseJSON). A full experiment run additionally requires a Modal account
+(codescientist executes generated experiments in Modal cloud containers); no
+credentials were available, so no paper was produced from this scaffold tonight.
