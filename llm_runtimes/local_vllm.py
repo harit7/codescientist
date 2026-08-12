@@ -28,12 +28,15 @@ class LocalVLLM:
         os.environ.setdefault("VLLM_WORKER_MULTIPROC_METHOD", "spawn")
         from vllm import LLM
 
+        # LoRA hot-swap needs Triton LoRA kernels, which fail to compile on
+        # some older GPUs (e.g. Turing SM7.5); opt in via LLM_RUNTIMES_LOCAL_LORA=1.
+        self.lora_enabled = os.environ.get("LLM_RUNTIMES_LOCAL_LORA", "0") == "1"
         kwargs = dict(
             model=cfg["hf_id"],
             dtype=cfg.get("dtype", "float16"),
             max_model_len=cfg.get("max_model_len", 16384),
             gpu_memory_utilization=cfg.get("gpu_memory_utilization", 0.90),
-            enable_lora=True,
+            enable_lora=self.lora_enabled,
             enforce_eager=True,  # saves memory on 11GB cards
         )
         if cfg.get("quantization"):
@@ -66,6 +69,11 @@ class LocalVLLM:
 
     # ---- fine-tuning control ---------------------------------------------
     def load_adapter(self, name, path):
+        if not self.lora_enabled:
+            raise RuntimeError(
+                "LoRA is disabled (set LLM_RUNTIMES_LOCAL_LORA=1; requires a GPU "
+                "where Triton LoRA kernels compile, i.e. Ampere or newer)"
+            )
         self._adapters[name] = (self._next_adapter_id, path)
         self._next_adapter_id += 1
         return {"name": name, "path": path}

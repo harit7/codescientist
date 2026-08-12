@@ -20,7 +20,7 @@ LOCAL_MODELS = {
         "hf_id": os.environ.get("LLM_RUNTIMES_LOCAL_HF_ID", "Qwen/Qwen3-8B-AWQ"),
         "quantization": os.environ.get("LLM_RUNTIMES_LOCAL_QUANT", "awq"),
         "dtype": "float16",
-        "max_model_len": int(os.environ.get("LLM_RUNTIMES_LOCAL_MAXLEN", "16384")),
+        "max_model_len": int(os.environ.get("LLM_RUNTIMES_LOCAL_MAXLEN", "12288")),
         "gpu_memory_utilization": float(
             os.environ.get("LLM_RUNTIMES_LOCAL_GPU_UTIL", "0.90")
         ),
