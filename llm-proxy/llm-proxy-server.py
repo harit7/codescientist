@@ -59,6 +59,28 @@ if (TOTAL_LLM_COST >= MAX_COST_USD):
 # A threading lock to make sure the usage information isn't being read/written to by more than one thread at a time.
 LLM_USAGE_LOCK = threading.Lock()
 
+#
+#   llm_runtimes routing (additive)
+#
+# Model names beginning with "claudecli-" (Claude via the local `claude -p` CLI) or
+# "local-" (local vLLM model) are served by a local OpenAI-compatible llm_runtimes
+# server (python -m llm_runtimes.server) rather than a provider API.  The server's
+# port comes from the LLM_RUNTIMES_PORT environment variable (default 8399).
+# All existing model names are unaffected.
+LLM_RUNTIMES_PREFIXES = ("claudecli-", "local-")
+LLM_RUNTIMES_API_BASE = "http://127.0.0.1:" + os.environ.get("LLM_RUNTIMES_PORT", "8399") + "/v1"
+
+def translate_llm_runtimes_request(request_data):
+    """Return a (shallow-copied) request routed to the llm_runtimes server if the
+    model name uses an llm_runtimes prefix; otherwise return the request unchanged."""
+    model_name = request_data.get("model", "")
+    if isinstance(model_name, str) and model_name.startswith(LLM_RUNTIMES_PREFIXES):
+        request_data = dict(request_data)
+        request_data["model"] = "openai/" + model_name
+        request_data.setdefault("api_base", LLM_RUNTIMES_API_BASE)
+        request_data.setdefault("api_key", "llm-runtimes")
+    return request_data
+
 # Load the API keys and set them as environment variables
 try:
     with open(FILENAME_API_KEYS, 'r') as f:
@@ -349,7 +371,8 @@ class Handler(http.server.BaseHTTPRequestHandler):
         try:
             if self.path == '/chat/completions' or self.path == '/completions':
                 # Forward the request to litellm.completion
-                response = litellm.completion(**request_data, drop_params=True)
+                # (claudecli-*/local-* models are additively rerouted to the local llm_runtimes server)
+                response = litellm.completion(**translate_llm_runtimes_request(request_data), drop_params=True)
 
                 # Convert the ModelResponse object to a dictionary
                 response_data = response.to_dict()

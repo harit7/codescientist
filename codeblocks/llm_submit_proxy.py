@@ -25,6 +25,10 @@ from experiment_common_library import llm_response, llm_get_embedding, cosine_em
 #     "together_ai/mistralai/Mixtral-8x7B-Instruct-v0.1": {"cost_per_1M_prompt_tokens": 0.60, "cost_per_1M_completion_tokens": 0.60},
 #     "together_ai/meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo": {"cost_per_1M_prompt_tokens": 0.18, "cost_per_1M_completion_tokens": 0.18}
 #     "together_ai/allenai/OLMo-7B-Instruct": {"cost_per_1M_prompt_tokens": 0.18, "cost_per_1M_completion_tokens": 0.18} (CURRENTLY NOT AVAILABLE)
+#     "claudecli-sonnet":             {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},   (local Claude CLI runtime; no API cost; requires a local llm_runtimes server)
+#     "claudecli-opus":               {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},   (local Claude CLI runtime; no API cost; requires a local llm_runtimes server)
+#     "claudecli-haiku":              {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},   (local Claude CLI runtime; no API cost; requires a local llm_runtimes server)
+#     "local-qwen":                   {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},   (local vLLM runtime; no API cost; requires a local llm_runtimes server)
 # }
 # Known embedding models:
 # {

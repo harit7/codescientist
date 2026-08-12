@@ -388,7 +388,7 @@ def createNewExperimentManual():
         # Get user input
         user_input = input_group("Automatically Generate Ideas", [
             # add a selection box for the model to use
-            select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"]),
+            select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"]),
             input("Give the experiment a short name (no spaces -- e.g. my-experiment-123):", name='experiment_name_short'),
             textarea("Describe the experiment in detail:", name='experiment_description', rows=5),
             checkbox("Codeblocks to use:", name='codeblock_names_to_use', options=knownCodeblockNames),
@@ -504,7 +504,7 @@ def createNewExperimentFromIdea(idea_id):
 
             user_input = input_group("Automatically Generate Ideas", [
                 # add a selection box for the model to use
-                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"]),
+                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"]),
                 input("Give the experiment a short name (no spaces -- e.g. my-experiment-123):", name='experiment_name_short', value=experiment_short_name),
                 textarea("Describe the experiment in detail:", name='experiment_description', rows=12, value=experiment_prompt_str),
                 checkbox("Codeblocks to use:", name='codeblock_names_to_use', options=knownCodeblockNames, value=experiment_codeblocks),
@@ -633,7 +633,7 @@ def _showBatchAutonomousExperiments():
             user_input = input_group("Batch Autonomous Experimentation", [
                 # add a selection box for the model to use
                 input("Give this batch run a short name (no spaces -- e.g. my-batch-123):", name='batch_name_short', value="my-batch"),
-                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"]),
+                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"]),
                 #checkbox("Codeblocks to use:", name='codeblock_names_to_use', options=knownCodeblockNames, value=experiment_codeblocks),
                 select("Maximum number of papers to generate each idea from:", name='max_papers_per_idea', options=[1, 2, 3], value=2),
                 # Checkbox to reduce duplicate ideas.
@@ -767,7 +767,7 @@ def _showRunBenchmark():
                 # add a selection box for the model to use
                 input("Give this batch run a short name (no spaces -- e.g. my-batch-123):", name='batch_name_short', value=batch_name_short_default),
                 select("Experiment Building Agent to Use:", name='experiment_building_agent_name', options=experment_building_agents),
-                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"]),
+                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"]),
                 # Select box for the benchmark to run
                 select("Select the benchmark to run:", name='benchmark_to_run', options=[(f"({x['num_records']}) {x['filename']}", x['filename']) for x in available_benchmark_list]),
                 select("Maximum runtime per iteration for mini-pilot experiments (minutes):", name='max_time_per_iteration_pilot_mins', options=[1, 5, 10, 15, 20, 25, 30, 45, 60], value=20),
@@ -1807,7 +1807,7 @@ def _showPaperList():
             # Add 3 fields: Model to use, number of ideas, and condition text.  Plus a button to start.
             batch_user_input = input_group("Idea Generation Parameters", [
                 # add a selection box for the model to use
-                select("Model to Use", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "claude-3-5-sonnet-20240620", "o1-2024-12-17", "o1-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"], value="claude-3-5-sonnet-20241022"),
+                select("Model to Use", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "claude-3-5-sonnet-20240620", "o1-2024-12-17", "o1-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"], value="claude-3-5-sonnet-20241022"),
                 input("How many total ideas should be generated? (Max = 100)", name='num_ideas', type=NUMBER, placeholder="50", required=True, min_value=1, max_value=100),
                 input("Maximum number of papers to use per idea?", name='num_papers_per_idea', type=NUMBER, placeholder="3", required=True, min_value=1, max_value=5),
                 checkbox("Discourage generating ideas similar to existing ideas (i.e. reduce duplicates)", name='discourage_similar', options=['Enable Deduplication']),
@@ -1991,7 +1991,7 @@ def _showPaperList():
                 # Use pin mode, so the widgets are non-blocking
                 user_input = input_group("Idea Generation Parameters", [
                     # add a selection box for the model to use
-                    select("Model to Use", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "claude-3-5-sonnet-20240620", "o1-2024-12-17", "o1-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"], value="claude-3-5-sonnet-20241022"),
+                    select("Model to Use", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "claude-3-5-sonnet-20240620", "o1-2024-12-17", "o1-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"], value="claude-3-5-sonnet-20241022"),
                     checkbox("Discourage generating ideas similar to existing ideas (i.e. reduce duplicates)", name='discourage_similar', options=['Enable Deduplication']),
                     input("Condition ideation on a particular topic (optional, leave blank to not use)", name='condition_idea')
                 ])
@@ -2225,7 +2225,7 @@ def _showFollowOnExperiment(experiment_id):
 
             user_input = input_group("Follow-on Experiment Parameters", [
                 # add a selection box for the model to use
-                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31"], value=model_str),
+                select("Code Generation/Debugging Model to Use:", name='model_str', options=["claude-3-5-sonnet-20241022", "claude-3-7-sonnet-20250219",  "gpt-4o-2024-11-20", "o1-2024-12-17", "o1-mini", "gpt-4o-mini", "deepseek/deepseek-reasoner", "openai/o3-mini-2025-01-31", "claudecli-sonnet", "claudecli-opus", "claudecli-haiku", "local-qwen"], value=model_str),
                 input("Give the experiment a short name (no spaces -- e.g. my-experiment-123):", name='experiment_name_short', value=experiment_short_name),
                 input("This is a follow-on experiment to (static):", name='follow_on_to_experiment', value=original_experiment_name_short, disabled=True),
                 textarea("Describe the original experiment in detail:", name='experiment_description', rows=12, value=experiment_prompt_str),

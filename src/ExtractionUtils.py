@@ -10,6 +10,28 @@ from litellm import embedding
 
 import tiktoken
 
+#
+#   llm_runtimes routing (additive)
+#
+# Model names beginning with "claudecli-" (Claude via the local `claude -p` CLI) or
+# "local-" (local vLLM model) are served by the local llm_runtimes OpenAI-compatible
+# server rather than a provider API.  All existing model names are unaffected: for
+# them, the wrapper below is a pass-through to litellm.completion.
+_litellm_completion = completion
+
+def _llm_runtimes_translate(model):
+    """If `model` is an llm_runtimes model, return (translated_model, extra_kwargs);
+    otherwise return the model unchanged with no extra kwargs."""
+    if isinstance(model, str) and (model.startswith("claudecli-") or model.startswith("local-")):
+        from llm_runtimes import ensure_server   # lazy import; only needed for these models
+        return "openai/" + model, {"api_base": ensure_server(), "api_key": "llm-runtimes"}
+    return model, {}
+
+def completion(*args, model=None, **kwargs):
+    model, _extra = _llm_runtimes_translate(model)
+    kwargs.update(_extra)
+    return _litellm_completion(*args, model=model, **kwargs)
+
 from func_timeout import func_timeout, FunctionTimedOut
 
 

@@ -11,5 +11,9 @@
     "together_ai/mistralai/Mixtral-8x7B-Instruct-v0.1": {"cost_per_1M_prompt_tokens": 0.60, "cost_per_1M_completion_tokens": 0.60},
     "together_ai/meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo": {"cost_per_1M_prompt_tokens": 0.18, "cost_per_1M_completion_tokens": 0.18},
     "text-embedding-3-large":        {"cost_per_1M_tokens": 0.12},
-    "text-embedding-3-small":        {"cost_per_1M_tokens": 0.02}
+    "text-embedding-3-small":        {"cost_per_1M_tokens": 0.02},
+    "claudecli-sonnet":              {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},
+    "claudecli-opus":                {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},
+    "claudecli-haiku":               {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0},
+    "local-qwen":                    {"cost_per_1M_prompt_tokens": 0.0, "cost_per_1M_completion_tokens": 0.0}
 }
