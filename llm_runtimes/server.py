@@ -62,6 +62,13 @@ def _handle_chat(body):
             stop=stop,
             lora=body.get("lora"),
         )
+        # Reasoning models (e.g. Qwen3) emit <think> blocks; scaffolds expect
+        # clean assistant text.
+        texts = [
+            t.split("</think>", 1)[1].lstrip() if "<think>" in t and "</think>" in t
+            else t
+            for t in texts
+        ]
     else:
         return 404, {"error": {"message": f"unknown runtime model: {model}"}}
 
