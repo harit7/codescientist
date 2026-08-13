@@ -53,6 +53,13 @@ def _handle_chat(body):
         ]
     elif model.startswith("local-"):
         from .local_vllm import LocalVLLM
+        # Qwen3-style soft switch: suppress reasoning blocks so scaffolds get
+        # clean assistant text (the template kwarg alone is not reliable).
+        messages = [dict(m) for m in messages]
+        for m in reversed(messages):
+            if m.get("role") == "user" and isinstance(m.get("content"), str):
+                m["content"] = m["content"] + " /no_think"
+                break
         eng = LocalVLLM.instance(config.resolve_local(model))
         texts = eng.chat(
             messages,
