@@ -64,7 +64,16 @@ class LocalVLLM:
             aid, path = self._adapters[lora]
             lora_req = LoRARequest(lora, aid, path)
         with self._gen_lock:
-            outs = self.llm.chat(messages, sp, lora_request=lora_req, use_tqdm=False)
+            try:
+                # Disable reasoning blocks on models that support the switch
+                # (e.g. Qwen3), so scaffolds get clean assistant text.
+                outs = self.llm.chat(
+                    messages, sp, lora_request=lora_req, use_tqdm=False,
+                    chat_template_kwargs={"enable_thinking": False},
+                )
+            except TypeError:
+                outs = self.llm.chat(messages, sp, lora_request=lora_req,
+                                     use_tqdm=False)
         return [o.text for o in outs[0].outputs]
 
     # ---- fine-tuning control ---------------------------------------------
